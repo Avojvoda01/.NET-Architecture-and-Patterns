@@ -4,3 +4,18 @@ GET {{LayeredArchitecture_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{LayeredArchitecture_HostAddress}}/books
+###
+GET {{LayeredArchitecture_HostAddress}}/books/2
+
+###
+
+POST {{LayeredArchitecture_HostAddress}}/books
+Content-Type: application/json
+{
+  "title": "Animal Farm",
+  "author": "George Orwell",
+  "publishedYear": 1945
+}
+
+###

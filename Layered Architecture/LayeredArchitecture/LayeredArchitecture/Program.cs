@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using LayeredArchitecture.Data;
+using LayeredArchitecture.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,5 +28,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapBookEndpoints();
 
 app.Run();
