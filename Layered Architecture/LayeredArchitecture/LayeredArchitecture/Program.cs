@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using LayeredArchitecture.Data;
 using LayeredArchitecture.Endpoints;
+using LayeredArchitecture.Repositories;
+using LayeredArchitecture.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ var testText = builder.Configuration["ConnectionStrings:Text"];
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -8,5 +8,9 @@ namespace LayeredArchitecture.Services
 
         public Task<Book> CreateBookAsync(CreateBook book);
 
+        public Task<List<Book>> getBooksAsync();
+        
+        public Task<Book> getBookByIdAsync(int id);
+
     }
 }

@@ -3,6 +3,7 @@ using LayeredArchitecture.Data;
 using LayeredArchitecture.Repositories;
 using Microsoft.EntityFrameworkCore;
 using LayeredArchitecture.DTO;
+using LayeredArchitecture.Services;
 
 namespace LayeredArchitecture.Endpoints
 {
@@ -13,32 +14,25 @@ namespace LayeredArchitecture.Endpoints
         {
 
 
-            app.MapGet("/books", async (AppDbContext db) =>
+            app.MapGet("/books", async (IBookService service) =>
             {
-                return await db.Books.ToListAsync();
+                await service.getBooksAsync();
+
+                return Results.Ok(await service.getBooksAsync());
             });
 
 
-            app.MapGet("/books/{id:int}", async (int id, AppDbContext db) => {
-                var book = await db.Books.FirstOrDefaultAsync(x => x.Id == id);
-                return book;
+            app.MapGet("/books/{id:int}", async (int id, IBookService service) => {
+                var book = service.getBookByIdAsync(id);
+
+                return Results.Ok(book);
             });
 
-            app.MapPost("/books", async (CreateBook book, AppDbContext db) =>
+            app.MapPost("/books", async (CreateBook book, IBookService service) =>
             {
-                var newBook = new Models.Book
-                {
-                    Title = book.Title,
-                    Author = book.Author,
-                    YearPublished = book.YearPublished,
-                    isAvailable = true
-                };
+                var createdBook = await service.CreateBookAsync(book);
 
-                await db.Books.AddAsync(newBook);
-                await db.SaveChangesAsync();
-
-                return Results.Created($"/books/{newBook.Id}", newBook);
-
+                return Results.Created($"/books/{createdBook.Id}", createdBook);
             });
         }
 

@@ -2,6 +2,7 @@
 using LayeredArchitecture.Models;
 using LayeredArchitecture.DTO;
 using LayeredArchitecture.Repositories;
+using System.ComponentModel;
 
 namespace LayeredArchitecture.Services
 {
@@ -18,8 +19,7 @@ namespace LayeredArchitecture.Services
                 isAvailable = true
             };
 
-            repository.CreateBookAsync(newBook);
-            return newBook;
+            return await repository.CreateBookAsync(newBook);
         }
 
         public async Task<List<Book>> getBooksAsync()
@@ -33,6 +33,17 @@ namespace LayeredArchitecture.Services
 
             return books;
         }
+
+        public async Task<Book> getBookByIdAsync(int id)
+        {
+            Book? book = await repository.GetBookAsync(id);
+            if (book == null)
+            {
+                throw new Exception("Book not found");
+            }
+            return book;
+           
     }
     }
+}
 

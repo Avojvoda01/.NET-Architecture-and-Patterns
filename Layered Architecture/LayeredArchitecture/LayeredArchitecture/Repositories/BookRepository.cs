@@ -6,10 +6,10 @@ namespace LayeredArchitecture.Repositories
 {
     public class BookRepository(AppDbContext db) : IBookRepository
     {
-        public Task<Book?> GetBookAsync(int id)
+        public async Task<Book?> GetBookAsync(int id)
         {
             var book = db.Books.FirstOrDefaultAsync(x => x.Id == id);
-            return book;
+            return await book;
         }
 
         public Task<List<Book>> GetBooksAsync()
